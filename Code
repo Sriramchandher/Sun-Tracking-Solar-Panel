@@ -1,0 +1,50 @@
+#include <Servo.h>
+Servo servohori;
+int servoh = 0;
+int servohLimitHigh = 140;
+int servohLimitLow = 60;
+
+
+
+int ldrl = 1;
+int ldrr = 2;
+
+ void setup () 
+ {
+  servohori.attach(10);
+  servohori.write(0);
+  Serial.begin(9600);
+  delay(500);
+  
+ }
+
+void loop()
+{
+  servoh = servohori.read();
+  int l = analogRead(ldrl);
+  int r = analogRead(ldrr);
+
+  if (l >r)
+  {
+    servohori.write(servoh -1);
+    if (servoh > servohLimitHigh)
+    {
+    servoh = servohLimitHigh;
+    }
+    delay(10);
+  }
+  else if (r > l)
+  {
+    servohori.write(servoh+1);
+    if (servoh < servohLimitLow)
+     {
+     servoh = servohLimitLow;
+     }
+    delay(10);
+  }
+  else 
+  {
+    servohori.write(servoh);
+  }
+  delay(50);
+}
